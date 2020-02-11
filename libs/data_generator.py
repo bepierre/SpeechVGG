@@ -71,7 +71,7 @@ def pad_spec(spec, width=128):
     elif to_add < 0:
         left = np.random.randint(0, -to_add)
         right = - to_add - left
-        spec = np.delete(spec, (tuple(np.arange(0, left)) + tuple(np.arange(width, width+right))), axis=0)
+        spec = spec[left:np.size(spec,0)-right,:,:]
     else:
         pass
     return spec

@@ -46,7 +46,7 @@ You should create a folder 'LibriSpeech' with the following folders :
             |____ train-other-500
 
 
-The `word_label` folder should contain the aligned labels, this folder can be downloaded [here](https://imperiallondon-my.sharepoint.com/:f:/g/personal/mak616_ic_ac_uk/Elmw8vfVOthKulvON7gylkMBjt0SVHNfHJfjPSKzMPZxtg?e=45VFsQ).
+The `word_label` folder should contain the aligned labels, this folder can be downloaded [here](https://imperialcollegelondon.app.box.com/s/yd541e9qsmctknaj6ggj5k2cnb4mabkc).
 
 The `split` folder should contain the extracted Librispeech datasets that can be downloaded [here](http://www.openslr.org/12/).
 
@@ -78,7 +78,7 @@ Finally the weights of the model will be saved in the desired direction, here '.
 
 ## or ...use our pre-trained models!
 
-Available [here](https://imperiallondon-my.sharepoint.com/:f:/g/personal/mak616_ic_ac_uk/ElEZOqMXQd9DkU38a_1r2yMBu8KFDDnp-bHoiKnHyID6vA?e=ea4aER), for all the configurations considered in [(Beckmann et al., 2019)](https://arxiv.org/pdf/1910.09909.pdf).
+Available [here](https://imperialcollegelondon.app.box.com/s/hus5093xaq3errmrxnly0zwsubjlo9d8), for all the configurations considered in [(Beckmann et al., 2019)](https://arxiv.org/pdf/1910.09909.pdf).
 
 ## Links:
 

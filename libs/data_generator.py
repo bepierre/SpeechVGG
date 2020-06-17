@@ -1,7 +1,3 @@
-'''
-Updated version of the module containing data generators for the VGG network.
-'''
-
 import numpy as np
 import keras
 import h5py
@@ -12,7 +8,7 @@ def one_hot_index(index, classes):
     'One-hot encoding'
     return np.array([int(i==index) for i in range(classes)])
 
-def log_standardize(spec, path_norm='dataset_props_log.h5'):
+def log_standardize(spec, path_norm='data/dataset_props_log.h5'):
     'Apply log operation to the spectrogram and normalize it based on the training data.'
     spec = np.log(spec)
     spec[spec < -80] = -80
@@ -61,7 +57,7 @@ def apply_augment_mask(spec, mask, mode='zero'):
     return spec
 
 def pad_spec(spec, width=128):
-    '''Pad word spectrogram to the right size (default: 128)'''
+    'Pad word spectrogram to the right size (default: 128)'
     #spec = np.delete(spec, (128), axis=1)
     to_add = width - np.size(spec,0)
     if to_add > 0:
@@ -71,13 +67,14 @@ def pad_spec(spec, width=128):
     elif to_add < 0:
         left = np.random.randint(0, -to_add)
         right = - to_add - left
+        #spec = np.delete(spec, (tuple(np.arange(0, left)) + tuple(np.arange(width, width+right))), axis=0)
         spec = spec[left:np.size(spec,0)-right,:,:]
     else:
         pass
     return spec
 
 class DataGenerator(keras.utils.Sequence):
-    def __init__(self, list_IDs, batch_size=32, dim=(128,128,1), classes=1000, data_augmentation=True, shuffle=True, phase_scaling=1/60., phase_init='random'):
+    def __init__(self, list_IDs, batch_size=32, dim=(128,128,1), classes=8, data_augmentation=True, shuffle=True, phase_scaling=1/60., phase_init='random'):
         'Initialization'
         self.dim = dim  # If phase is to be used last dimension > 1
         self.batch_size = batch_size
@@ -120,41 +117,36 @@ class DataGenerator(keras.utils.Sequence):
         # Generate data
         for i, ID in enumerate(list_IDs_temp):
             # Store sample
-            try:
-                h5f = h5py.File(ID, 'r')
+            h5f = h5py.File(ID, 'r')
 
-                spec_tmp = np.swapaxes(h5f['mag'][:], 0, 1)
-                spec_tmp = spec_tmp[..., np.newaxis]
+            spec_tmp = np.swapaxes(h5f['mag'][:], 0, 1)
+            spec_tmp = spec_tmp[..., np.newaxis]
+
+            if self.dim[-1] > 1:
+                phase_tmp = np.swapaxes(h5f['phase'][:], 0, 1)
+                phase_tmp = phase_tmp[..., np.newaxis]
                 if self.data_augmentation:
-                    aug_mask = get_augment_mask(spec_tmp)
-                    spec_tmp = apply_augment_mask(spec_tmp, aug_mask, mode='mean')
+                    if self.phase_init == 'random':
+                        phase_tmp = apply_augment_mask(phase_tmp, aug_mask, mode='random_phase')
+                    else:
+                        phase_tmp = apply_augment_mask(phase_tmp, aug_mask, mode='zero')
+                phase_tmp = phase_tmp*self.phase_scaling
+                data_tmp = np.dstack((spec_tmp, phase_tmp))
+            else:
+                data_tmp = spec_tmp[:]
 
-                if self.dim[-1] > 1:
-                    phase_tmp = np.swapaxes(h5f['phase'][:], 0, 1)
-                    phase_tmp = phase_tmp[..., np.newaxis]
-                    if self.data_augmentation:
-                        if self.phase_init == 'random':
-                            phase_tmp = apply_augment_mask(phase_tmp, aug_mask, mode='random_phase')
-                        else:
-                            phase_tmp = apply_augment_mask(phase_tmp, aug_mask, mode='zero')
-                    phase_tmp = phase_tmp*self.phase_scaling
-                    data_tmp = np.dstack((spec_tmp, phase_tmp))
-                else:
-                    data_tmp = spec_tmp[:]
+            data_tmp = pad_spec(data_tmp)
+            data_tmp[:,:,0] = log_standardize(data_tmp[:,:,0])
 
-                data_tmp = pad_spec(data_tmp)
-                data_tmp[:,:,0] = log_standardize(data_tmp[:,:,0])
-                data_tmp= np.delete(data_tmp, (128), axis=1)
-                data[i,] = data_tmp
+            if self.data_augmentation:
+                aug_mask = get_augment_mask(data_tmp)
+                data_tmp = apply_augment_mask(data_tmp, aug_mask, mode='mean')
 
-                label_tmp = h5f['word_idx'][0]
-                label_tmp = one_hot_index(label_tmp, self.classes)
-                labels[i,] = label_tmp
-                h5f.close()
+            data_tmp= np.delete(data_tmp, (128), axis=1)
+            data[i,] = data_tmp
 
-            except ValueError:
-                print('Error at: {}'.format(ID))
-                print('Wrong shape? {}'.format(spec_tmp.shape))
-                print('Wrong shape? {}'.format(data_tmp.shape))
+            label_tmp = h5f['class'][0]
+            labels[i] = one_hot_index(label_tmp, self.classes)
+            h5f.close()
 
         return data, labels

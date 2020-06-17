@@ -1,7 +1,3 @@
-'''
-Command line script for computing mean & variance based on the training data to
-perform normalization later on in the process.
-'''
 import numpy as np
 import glob
 import h5py
@@ -18,7 +14,6 @@ def parse_args():
         help='Folder with spectrograms'
     )
 
-    # TO DO: mkdir -p?
     parser.add_argument(
         '-output_folder', '--output_folder',
         type=str,

@@ -9,11 +9,12 @@ from keras import layers
 def speechVGG(include_top=True,
             weights=None,
             input_shape=(128,128,1),
-            classes=1000,
-            pooling=None):
+            classes=8,
+            pooling=None,
+            transfer_learning=False):
 
     img_input = layers.Input(shape=input_shape)
-    print(img_input.shape)
+    # print(img_input.shape)
 
     # Block 1
     x = layers.Conv2D(64, (3, 3),
@@ -83,16 +84,18 @@ def speechVGG(include_top=True,
     x = layers.MaxPooling2D((2, 2), strides=(2, 2), name='block5_pool')(x)
 
     if include_top:
+        # allows to load all layers except these ones that will finetune to task.
+        if transfer_learning:
+            add_string = '_new'
+        else:
+            add_string = ''
         # Classification block
-        x = layers.Flatten(name='flatten')(x)
-        x = layers.Dense(4096, activation='relu', name='fc1')(x)
-        x = layers.Dense(4096, activation='relu', name='fc2')(x)
-        x = layers.Dense(classes, activation='softmax', name='predictions')(x)
+        x = layers.Flatten(name='flatten' + add_string)(x)
+        x = layers.Dense(4096, activation='relu', name='fc1' + add_string)(x)
+        x = layers.Dense(4096, activation='relu', name='fc2' + add_string)(x)
+        x = layers.Dense(classes, activation='softmax', name='predictions' + add_string)(x)
     else:
-        if pooling == 'avg':
-            x = layers.GlobalAveragePooling2D()(x)
-        elif pooling == 'max':
-            x = layers.GlobalMaxPooling2D()(x)
+        x = x
 
     inputs = img_input
 
@@ -100,6 +103,6 @@ def speechVGG(include_top=True,
     model = Model(inputs, x, name='speech_vgg')
 
     if weights:
-        model.load_weights(weights)
+        model.load_weights(weights, by_name=True)
 
     return model

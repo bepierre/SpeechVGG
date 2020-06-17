@@ -55,13 +55,13 @@ The `split` folder should contain the extracted Librispeech datasets that can be
 First, preprocess the data (here, [LibriSpeech](http://www.openslr.org/12/) for example):
 
 ```bash
-python preprocess.py --data ./LibriSpeech --dest_path ./LibriSpeechWords
+python preprocess.py --data ~/LibriSpeech --dest_path ~/LibriSpeechWords
 ```
 
 Then, obtain the mean and standard deviation of the desired dataset (for normalization):
 
 ```bash
-python compute_dataset_props.py --data ./LibriSpeechWords/train-clean-100/ --output_folder ./
+python compute_dataset_props.py --data ~/LibriSpeechWords/train-clean-100/ --output_folder data
 ```
 
 Parameters will be saved as `dataset_props_log.h5` file. Here we attach a version obtained from training part of LibriSpeech data.
@@ -71,14 +71,18 @@ Parameters will be saved as `dataset_props_log.h5` file. Here we attach a versio
 Now you can train the model using the training script:
 
 ```bash
-python train.py --name my_model_name --train ./LibriSpeechWords/train-clean-100/ --test ./LibriSpeechWords/test-clean/ --weight_path ./results/
+python train.py --train ~/LibriSpeechWords/train-clean-100/ --test ~/LibriSpeechWords/test-clean/ --weight_path data --classes 1000 --augment yes 
 ```
 
-Finally the weights of the model will be saved in the desired direction, here './results/'. Subsequently you can use the trained model, for example, to obtain deep feature losses (as we did in [Kegler et al., 2019](https://arxiv.org/pdf/1910.09058.pdf) & [Beckmann et al., 2019](https://arxiv.org/pdf/1910.09909.pdf)).
+Finally the weights of the model will be saved in the desired direction, here 'data'. Subsequently you can use the trained model, for example, to obtain deep feature losses (as we did in [Kegler et al., 2019](https://arxiv.org/pdf/1910.09058.pdf) & [Beckmann et al., 2019](https://arxiv.org/pdf/1910.09909.pdf)).
 
 ## or ...use our pre-trained models!
 
 Available [here](https://imperialcollegelondon.app.box.com/s/hus5093xaq3errmrxnly0zwsubjlo9d8), for all the configurations considered in [(Beckmann et al., 2019)](https://arxiv.org/pdf/1910.09909.pdf).
+
+## check out our examples!
+
+In the examples folder we show you how to use a pre-trained speechVGG model to other tasks.
 
 ## Links:
 

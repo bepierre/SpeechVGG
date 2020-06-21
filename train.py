@@ -1,11 +1,8 @@
 '''
-Command line script for training the VGG network
+Command line script for training the speechVGG network
 '''
 
 import os
-from libs import utils
-# os.environ["CUDA_DEVICE_ORDER"]="PCI_BUS_ID"
-# os.environ["CUDA_VISIBLE_DEVICES"] = str(utils.pick_gpu_lowest_memory())
 
 import numpy as np
 from argparse import ArgumentParser
@@ -19,11 +16,6 @@ from libs.speech_vgg import speechVGG
 from keras.callbacks import TensorBoard, ModelCheckpoint
 from keras_tqdm import TQDMCallback
 from tensorflow.python.client import device_lib
-
-# import tensorflow as tf
-# sess = tf.Session(config=tf.ConfigProto(log_device_placement=True))
-
-# tf.test.is_gpu_available()
 
 def parse_args():
     parser = ArgumentParser(description='Training script for speechVGG')
@@ -126,7 +118,7 @@ def parse_args():
         '--transfer_learning',
         type=str, 
         default='no',
-        help='Augment training data? yes/no'
+        help='Transfer learning? yes/no'
     )
 
     parser.add_argument(
@@ -177,12 +169,7 @@ if __name__ == '__main__':
         data_augmentation=False,
         shuffle=False
     )
-
-    # Build model
-    # model = sVGG_classifier(sVGG_weights=None,
-    #         classes=args.classes,
-    #         pooling=None,
-    #         slide_offset=20)
+    
     if args.model=='speechVGG':
         model = speechVGG(
             include_top=True,
@@ -191,12 +178,6 @@ if __name__ == '__main__':
             pooling=None,
             weights=args.weights,
             transfer_learning=transfer_learning
-        )
-    elif args.model=='svgg_extractor':
-        model = sVGG_extractor(
-            input_shape=(args.width, args.height, args.channels),
-            classes=args.classes,
-            svgg_weights=args.weights
         )
 
     # Compile model

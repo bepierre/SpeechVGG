@@ -14,7 +14,6 @@ def speechVGG(include_top=True,
             transfer_learning=False):
 
     img_input = layers.Input(shape=input_shape)
-    # print(img_input.shape)
 
     # Block 1
     x = layers.Conv2D(64, (3, 3),

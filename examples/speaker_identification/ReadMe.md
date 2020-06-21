@@ -1,8 +1,10 @@
-# speaker-identification
+# Speaker identification
 
-#### Data :
+Example usage of the pre-trained speechVGG for speaker identification, as applied and evaluated in [(Beckmann et al., 2019)](https://arxiv.org/pdf/1910.09909.pdf).
 
-You should create a folder 'TIMIT' with the following folders :
+#### Data
+
+This example uses TIMIT dataset available [here](https://catalog.ldc.upenn.edu/LDC93S1). You should create a folder 'TIMIT' with the following folders (default file structure):
 
     TIMIT
     |_ TEST

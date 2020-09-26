@@ -4,3 +4,4 @@
 *SpeechVGG_pretrained*
 *LibriSpeechWords*
 *.ipynb_checkpoints*
+*.vscode*

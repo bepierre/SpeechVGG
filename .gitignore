@@ -5,3 +5,4 @@
 *LibriSpeechWords*
 *.ipynb_checkpoints*
 *.vscode*
+*TIMIT_speakers*

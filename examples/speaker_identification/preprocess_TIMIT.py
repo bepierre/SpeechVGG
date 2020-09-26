@@ -42,11 +42,12 @@ if __name__ == '__main__':
     # Parse command-line arguments
     args = parse_args()
 
-    if args.task=='speaker':
-        # create dest folders
-        os.mkdir('{}/TEST'.format(args.dest_path))
-        os.mkdir('{}/TRAIN'.format(args.dest_path))
+    # create dest folders
+    os.mkdir('{}'.format(args.dest_path))
+    os.mkdir('{}/TEST'.format(args.dest_path))
+    os.mkdir('{}/TRAIN'.format(args.dest_path))
 
+    if args.task=='speaker':
         # get all wav files
         audio_files = glob('{}/*/*/*/*.WAV'.format(args.data))
         random.shuffle(audio_files)

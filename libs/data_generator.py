@@ -145,7 +145,7 @@ class DataGenerator(keras.utils.Sequence):
             data_tmp= np.delete(data_tmp, (128), axis=1)
             data[i,] = data_tmp
 
-            label_tmp = h5f['word_idx'][0]
+            label_tmp = h5f['class'][0]
             labels[i] = one_hot_index(label_tmp, self.classes)
             h5f.close()
 

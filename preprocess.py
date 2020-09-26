@@ -68,7 +68,7 @@ if __name__ == '__main__':
             segment_num = 0
 
             for line in wf.readlines():
-
+                
                 # remove endline if present
                 line = line[:line.find('\n')]
                 segment_name, _, time_beg, time_len, word, _ = line.split(' ')
@@ -90,7 +90,7 @@ if __name__ == '__main__':
                 
 
                 h5f = h5py.File(args.dest_path + '/' + split + '/' + segment_name + '_' + str(segment_num) + '.h5', 'w')
-                h5f.create_dataset('word_idx', data=[dictionary.index(word.lower())])
+                h5f.create_dataset('class', data=[dictionary.index(word.lower())])
                 h5f.create_dataset('mag', data=np.abs(seg_stft))
                 h5f.close()
 

@@ -2,10 +2,6 @@
 
 Example usage of the pre-trained speechVGG for speaker identification, as applied and evaluated in [(Beckmann et al., 2019)](https://arxiv.org/pdf/1910.09909.pdf).
 
-#### Note
-
-The original data generator uses the 'word_idx' key for labels as the original pre-training involved word classification task. To run this example using our generator, please replace 'word_idx' in `./libs/data_generator` (line 148) with 'class'. This is a temporary fix. The code will be updated soon to handle both cases with the same generator.
-
 #### Data
 
 This example uses TIMIT dataset available [here](https://catalog.ldc.upenn.edu/LDC93S1). You should create a folder 'TIMIT' with the following folders (default file structure):

@@ -87,5 +87,5 @@ Finally the weights of the model will be saved in the desired direction, here 'd
 
 ## References
 
-1. [Beckmann, Pierre, Mikolaj Kegler, Hugues Saltini, and Milos Cernak. "Speech-VGG: A deep feature extractor for speech processing." arXiv preprint arXiv:1910.09909 (2019)](https://arxiv.org/pdf/1910.09909.pdf)
-2. [Kegler, Mikolaj, Pierre Beckmann, and Milos Cernak. "Deep speech inpainting of time-frequency masks." arXiv preprint arXiv:1910.09058 (2019)](https://arxiv.org/pdf/1910.09058.pdf) + [Demo](https://mkegler.github.io/SpeechInpainting/)
+1. [Beckmann, P.\*, Kegler, M.\*, Saltini, H., and Cernak, M. (2019) Speech-VGG: A deep feature extractor for speech processing. arXiv preprint arXiv:1910.09909.](https://arxiv.org/pdf/1910.09909.pdf)
+2. [Kegler, M.\*, Beckmann, P.\*, and Cernak, M. (2020) Deep Speech Inpainting of Time-Frequency Masks. Proc. Interspeech 2020, 3276-3280, DOI: 10.21437/Interspeech.2020-1532.](https://isca-speech.org/archive/Interspeech_2020/pdfs/1532.pdf) + [Demo](https://mkegler.github.io/SpeechInpainting/)

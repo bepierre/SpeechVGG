@@ -6,3 +6,5 @@
 *.ipynb_checkpoints*
 *.vscode*
 *TIMIT_speakers*
+data/logs
+data/weights*
